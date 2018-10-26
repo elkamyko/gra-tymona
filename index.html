@@ -1,0 +1,218 @@
+<html>
+<head>
+<link href="./libraries/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+<style> 
+
+	button {
+		background-color:purple;
+		color:yellow
+	} 
+	
+	ul {
+		width:200px;
+		margin:0 auto;
+	}
+	
+	#avatar-gracz1,	#avatar-gracz2 {
+		height:400px;
+	}
+	
+	#zrzut {
+		position: absolute;
+		top: 0;
+		height: 6em;
+		line-height: 2em;
+		padding: 2em;
+		background: #afafaf;
+		border: 4px solid #999999;
+	}
+	
+	#png{
+	width:100px;
+	}
+	
+	
+	.animowalny {
+		transition-property: all;
+		transition-duration: 5s;
+		transition-timing-function: ease-in;
+	}
+
+</style>
+</head>
+<body>
+
+
+<div> 
+	<div id="ekran-startowy">Ekran startowy
+	
+		<ul>
+			<li> <button onclick="po_kliknieciu_w_przycisk_start()"> Start </button> </li>
+			<li> <button onclick="zmiana_ekranu($opcje)"> opcje </button> </li>
+			<li> <button onclick="wyswietl_statystyki"  > statystyki </button> </li>
+		</ul>
+	
+	 
+	
+	</div>
+	
+<div id="statystyki" >statystyki
+	<button onclick="po_kliknieciu_w_przycisk_start()"> kolejna gra </button>
+	<table>
+	
+		<tr>
+		
+			<th> kategoria </th>
+			
+			<th> gracz1 </th>
+			
+			<th> gracz2 </th>
+			
+			
+		</tr>
+		
+		<tr>
+		
+			<th> wygrane </th>
+		
+			<td id="winner1">  </td>
+		
+			<td id="winner2">  </td>
+		
+		</tr>
+		
+	</table>
+	
+	<button onclick="zmiana_ekranu($ekran_startowy)"> wróć </button>
+	
+</div>
+	
+	<div id="pole-bitwy">
+	
+		<div style="width:50%; text-align:center; float:left;" id="gracz1">
+
+			<img id="avatar-gracz1">
+			<div id="zycie-gracz1"></div>
+			<div>
+				<div id="bronie-gracz1">
+					<button onclick="atakuj(gracz1, gracz2);">Atak</button>
+				</div>
+				<button onclick="leczenie(gracz1, gracz2);">Leczenie</button>
+				<button onclick="obrona (gracz1,gracz2)" > obrona </button>
+				
+			</div>
+
+		</div>
+
+		<div style="width:50%; text-align:center; float:left" id="gracz2">
+
+			<img id="avatar-gracz2">
+			<div id="zycie-gracz2"></div>
+			<div>
+				<div id="bronie-gracz2">
+					<button onclick="atakuj(gracz2, gracz1);">Atak</button>
+				</div>
+				<button onclick="leczenie(gracz2, gracz1);">Leczenie</button>
+				<button onclick="obrona (gracz2,gracz1)" > obrona </button>
+			</div>
+		
+		</div>
+
+		<div style="clear:both;"></div>
+	<button onclick=zmiana_ekranu($ekran_startowy) >wyjdz</button>
+	</div>
+	
+	<div id="opcje" >Ekran opcji
+	<ul>
+	
+	<li> <button>ustawienia audio</button> 
+	</ul>
+		<button onclick="zmiana_ekranu($ekran_startowy)" >wroc</button>
+	</div>
+	
+</div>
+
+
+
+<div id="zrzut" onclick="zlap_zrzut()">
+	<img id="png" > 
+</div>
+
+
+
+<div class="modal fade" id="wybor-gracza-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="wybor-gracza-tytul">Wybierz zawodnika</h5>
+        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>-->
+      </div>
+      <div class="modal-body">
+        <div class="container">
+		  <div class="row">
+		  
+			
+		  
+			<div class="col-sm-3" >
+			  <div class="card">
+				  <img class="card-img-top" src="./images/bohater.png">
+				  <div class="card-body">
+					<h5 class="card-title">Rycerz</h5>
+					<p class="card-text">hp=5 atak=1-3 lecz.=2 .</p>
+					<a class="btn btn-primary wybor-gracza" data-gracz="rycerz">Wybierz</a>
+				  </div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+			  <div class="card">
+				  <img class="card-img-top" src="./images/potwor.png">
+				  <div class="card-body">
+					<h5 class="card-title">Potwór</h5>
+					<p class="card-text">hp=5 atak=0-4 lecz.=2</p>
+					<a class="btn btn-primary wybor-gracza" data-gracz="potwor">Wybierz</a>
+				  </div>
+				</div>
+			</div>
+			<div class="col-sm-3" data-gracz="smok">
+			  <div class="card">
+				  <img class="card-img-top" src="./images/smok.png">
+				  <div class="card-body">
+					<h5 class="card-title">Smok</h5>
+					<p class="card-text">hp=6 atak=2 lecz.=2</p>
+					<a class="btn btn-primary wybor-gracza" data-gracz="smok">Wybierz</a>
+				  </div>
+				</div>
+			</div>
+			<div class="col-sm-3" >
+			  <div class="card">
+				  <img class="card-img-top" src="./images/wampir.png">
+				  <div class="card-body">
+					<h5 class="card-title">wampir</h5>
+					<p class="card-text">hp=5 atak=1-3 lecz.=2 .</p>
+					<a class="btn btn-primary wybor-gracza" data-gracz="wampir">Wybierz</a>
+				  </div>
+				</div>
+			</div>
+		  </div>
+		</div>
+      </div>
+      <!--<div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>-->
+    </div>
+  </div>
+</div>
+ 
+<script src="./libraries/bootstrap/assets/js/vendor/jquery-slim.min.js"></script>
+<script src="./libraries/bootstrap/assets/js/vendor/popper.min.js"></script>
+<script src="./libraries/bootstrap/dist/js/bootstrap.js"></script>
+
+<script src="./js/gra.js" >
+
+</script>
+</body>
+
+</html>
