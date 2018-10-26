@@ -349,6 +349,8 @@ function leczenie(leczacy, obserwujacy){
 	}	
 }
 
+//Dużo funkcji
+
 function zmien_gracza(nowy_gracz) {
 
 	aktualny_gracz = nowy_gracz;
